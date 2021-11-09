@@ -7,11 +7,18 @@ package cl.ucn.disc.dsm.kdawson.scraper;
 *
 * */
 
+import com.google.common.reflect.TypeToken;
+import com.google.firestore.v1.Document;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import jdk.internal.org.jline.utils.Log;
 
@@ -36,22 +43,18 @@ public final class TheMain {
         Type type=new TypeToken<List<Funcionario>>(){}.getType();
 
         // Load the File
+        String data= FileUtils.readFileToString(new File(pathname:"funcionarios.json") StandardCharsets.UTF_8);
 
         // The list of Funcionario
-        List<Funcionario> funcionarios = new ArrayList<>();
+        List<Funcionario> funcionarios = GSON.fromJson(data,type);
 
-        int start = 0;
-        int end = 30000;
-
-        Random r= new Random();
+        int start = funcionarios.get(funcionarios.size()-1).getId();
+        int end =30000;
 
         Log.debug(" Starting the Scrapping from {} to {}..", start, end);
-        for (int id = strart; id <= end; id++) {
+        for (int id = start; id <=  end; id++) {
 
-            Thread.sleep(250);
-
-            //Wait FOR...
-            Thread.sleep(50 + r.nextint(bound:350));
+            Thread.sleeps(250);
 
             log.debug("Retriving Funiconario id: {}.", id);
 
@@ -68,12 +71,19 @@ public final class TheMain {
             String oficina = doc.getElementById("lblOficina").text();
             String direccion = doc.getElementById("lblDireccion").text();
 
+            //skip if data not found
+            if(nombre.length() <= 1){
+                log.warn("No data found for id: {}.",id);
+                continue;
+            }
 
             // Skip if date not found
             if (nombre.length() <= 1) {
                 Log.warn("No data found for id: {}.", id);
                 continue;
             }
+
+            log.info("Funcionario id: {} founded: {}.", id,nombre);
             // Call the constructor
             Funcionario f = Funcionario.builder()
 
@@ -92,6 +102,8 @@ public final class TheMain {
 
             // save by 25
             if (funcionarios.size() % 25 == 0) {
+
+                Log.debug("Writing {} Funcionarios to file..", funcionarios.size());
 
                 // Write the List of Funcionario in JSON format
                 FileUtils.writeStringToFile(new File("Funcionarios.json"), GSON.toJson(funcionarios)

@@ -2,7 +2,7 @@ package cl.ucn.disc.dsm.kdawson.scraper;
 
 import jdk.nashorn.internal.objects.annotations.Getter;
 import lombok.Builder;
-import lombok.Getter;
+
 /*
 * The Ucn Funcionario
 *
