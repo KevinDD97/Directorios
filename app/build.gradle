@@ -14,16 +14,42 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+//
     buildTypes {
+
+        //Modo:Produccion
         release {
-            minifyEnabled false
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            crunchPngs true
+            versionNameSuffix ".r"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        //Modo:Desarrollo
+        debug{
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled false
+            crunchPngs false
+            versionNameSuffix ".d"
+
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    android.appicationsVariants.all{ variant ->
+        variant.outputs.each{ output ->
+            output.versionCodeOverride = project.ext.buildTimestamp
+            output.versionNameOverride = project.ext.buildVersion + (variant.name ="debug" ? ".d" : "r")
+
+        }
+
     }
 }
 
@@ -35,26 +61,5 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-    implementation 'org.slf4j:slf4j-api:1.7.32'
-
-    implementation 'ch.qos.logback:logback-classic:1.2.6'
-    implementation 'com.google.firebase:firebase-firestore:23.0.4'
-
-    //https://mvnrepository.com/artifact/org.projectlombok/lombok
-    compileOnly 'org.projectlombok:lombok:1.18.20'
-    annotationProcessor 'org.projectlombok:lombok:1.18.20'
-
-    //https://mvnrepository.com/artifact/org.jsoup/jsoup
-    implementation 'org.jsoup:jsoup:1.14.3'
-
-    //https://mvnrepository.com/artifact/com.google.code.gson/gson
-
-    implementation 'com.google.code.gson:gson:2.8.8'
-
-    //https://mvnrepository.com/artifact/commons-io/commons-io
-
-    implementation 'commons-io:commons-io:2.11.0'
 
 }
