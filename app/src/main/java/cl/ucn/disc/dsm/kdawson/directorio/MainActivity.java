@@ -21,8 +21,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         // se genero un error!
 
         //throw new IllegalArgumentException("Error en la aplicacion!!");
     }
 }
+
+
+
+
+
+
+

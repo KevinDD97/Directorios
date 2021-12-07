@@ -8,16 +8,17 @@
     tools:context=".MainActivity">
 
     <android.appcompat.widget.Toolbar
-        android:layout.width="match_parent"
+        android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:minWidth="?attr/actionBarSize"
         android:elevation="4dp"
-        android:theme="@style/Theme.Directorio.Toolbar"
         app:contentInsertStart="8dp"
-        app:contentInsertStart="0dp"
+        app:contentInsertStart="6dp"
         app:title="@string/app_title"
         app:subtitle="@string/app_subtitle"
         />
+
+    <>
 
     <TextView
         android:layout_width="wrap_content"

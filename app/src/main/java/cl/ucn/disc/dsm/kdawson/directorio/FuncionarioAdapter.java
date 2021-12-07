@@ -71,8 +71,49 @@ public final class FuncionarioAdapter extends BaseAdapter {
         return position;
     }
 
+    /*
+    * add all the {@link Funcionario} into the Adapter
+    *
+    * @param theFuncionarios to add
+    * */
+    public void setFuncionarios(List<Funcionario> theFuncionarios){
+        this.funcionarios.addAll(theFuncionarios);
+    }
+
+    /*
+    * Return a convertview with a holder
+    *
+    * */
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+        // The holder
+        ViewHolder holder;
+
+        // inflate only the rows visibles
+        if(convertView == null){
+
+            convertView= this.theInflater.inflate(R.layout.row_funcionario, parent, false);
+
+            // construct the ViewHolder
+            holder=new ViewHolder(convertView);
+
+            // save into the convertView
+            convertView.setTag(holder);
+
+        }else{
+            holder= (ViewHolder) convertView.getTag();
+        }
+
+        // assign the values
+
+        final Funcionario funcionario = this.getItem(position);
+        //final Funcionario funcionario = this.funcionarios.get(position);
+        holder.nombre.setText(funcionario.getNombre());
+        holder.email.setText(funcionario.getEmail());
+        // TODO: set all the attributes into the holder
+
         return null;
     }
 
